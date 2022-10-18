@@ -1,0 +1,205 @@
+// General
+* {
+    padding: 0;  
+    margin: 0;
+    box-sizing: border-box; 
+}
+h1, h2, h3, h4, h5, h6, legend {
+    @extend %titulos;
+}
+h1 {
+    font-size: 48px;
+}
+h2, legend {
+    font-size: 36px;
+}
+h3 {
+    font-size: 32px;
+}
+h5 {
+    font-size: 28px;
+}
+body {
+    background: #111 url(../images/bg.jpg) center repeat-y fixed;
+    background-size: cover;
+    margin: 0px;
+    font-family: 'Architects Daughter', cursive;
+    background-color: #222222;
+    color: #bbbbbb;
+    main {
+        margin: 5px;
+    }
+}
+.grilla, .grilla2 {
+    display: grid;
+    grid-template-areas: 
+    "cabecera"
+    "principal"
+    "secundario"
+    "footer";
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+// Bootstrap
+.navbar{
+    padding: 0em 0.5em 0em 0em;
+}
+.navbar-toggler {
+    border-width: 0;
+    &:focus {
+        box-shadow: 0 0 0 0;
+    }
+}
+.row>* {
+    padding-left: 0;
+    padding-right: 0;
+}
+.card {
+    background-color: map-get($colores, backgroundPpal);
+    border-width: 3px;
+}
+.card-text{
+    font-size: 18px;
+}
+//Fin bootstrap
+//Formulario
+.contact_form {
+    max-width: 640px;
+    background-color: #111;
+    padding: 15px;
+    border-radius: 10px;
+    fieldset {
+        text-align: left;
+        max-width: 524px;
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            background-color: #111;
+            padding: 0 5px 0 5px;
+            color: #fff;
+            margin: 10px 0 0 0;
+        }
+    }
+}
+input {
+    background-color: #111;
+    border-width: 0 0 2px 0;
+    padding: 0 5px 0 5px;
+    color: #fff;
+    margin: 0 0 10px 0;
+}
+.btn-primary {
+    background-color: #333;
+    border-color: #333;
+    &:active {
+        background-color: #222;
+        border-color: #222;
+    }
+    &:hover {
+        background-color: #222;
+        border-color: #222;
+    }
+}
+.btn_form {
+    background-color: #333;
+    border-color: #333;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+    &:active {
+        background-color: #222;
+        border-color: #222;
+    }
+    &:focus {
+        background-color: #555;
+        border-color: #555;
+        box-shadow: 0 0 0 0.25rem rgba(185, 185, 185, 0.5);
+    }
+    &:hover {
+        background-color: #222;
+        border-color: #222;
+        color: #fff;
+    }
+}
+
+
+// @media
+@media screen and (min-width: 320px) {
+    .logo_clic {
+        width: 90px;
+    }
+}
+@media screen and (min-width: 480px) {
+    .logo_clic {
+        width: 120px;
+    }
+}
+@media screen and (min-width: 640px) {
+    .logo_clic {
+        width: 150px;
+        margin: 8px;
+        transition: all 0.5s ease;
+        &:hover {
+        width: 182px;
+        margin: 0px;
+        }
+    }
+    .bg-dark {
+        opacity: 0.9;
+    }
+    .logo_clic {
+        width: 150px;
+  }
+    .grilla {
+        grid-template-areas: 
+        "cabecera cabecera"
+        "principal secundario"
+        "footer footer";
+        grid-template-columns: 3fr 1fr;
+        row-gap: 0px;
+        column-gap: 0px;
+      }
+      .grilla2 {
+        grid-template-areas: 
+        "cabecera"
+        "principal"
+        "footer";
+        grid-template-columns:1fr;
+        row-gap: 0px;
+        column-gap: 0px;
+      }
+      .grilla_estilos {
+        display: grid;
+        max-width: 700px;
+        grid-template-areas: 
+        "estilo1_img estilo1_desc"
+        "estilo2_img estilo2_desc"
+        "estilo3_img estilo3_desc"
+        "estilo4_img estilo4_desc"
+        "estilo5_img estilo5_desc";
+        grid-template-rows: 1fr;
+        grid-template-columns: 3fr 4fr;
+        text-align: left;
+    }
+      footer ul li a img {
+        transition: all 0.5s ease;
+        &:hover {
+        width: 64px;
+        margin: 0px;
+        }
+    }
+    .estilo1_img, .estilo2_img, .estilo3_img, .estilo4_img, .estilo5_img {
+        border-radius: 15px 0 0 15px;
+    }
+    .principal {
+        section {
+            margin: 10px 0 10px 0;
+            img {
+                border-radius: 15px 0 0 15px;
+            }
+        }
+    }
+}

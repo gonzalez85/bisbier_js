@@ -1,0 +1,8 @@
+@mixin secundario($backColor, $tamFuente) {
+    flex: 1;
+    margin: 5px;
+    padding: 10px 15px 15px 15px;
+    border-radius: 15px;
+    background-color: $backColor;
+    font-size: $tamFuente;
+}

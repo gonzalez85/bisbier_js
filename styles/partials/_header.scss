@@ -1,0 +1,20 @@
+header {
+        grid-area: cabecera;
+        img {
+            width: 100%;
+        }
+}
+.cabecera {
+    display: flex;
+    flex-direction: column;
+    background-size: contain;
+}
+.logo_clic {
+    width: 64px;
+}
+.bg-dark{
+    opacity: 0.9;
+}
+.menu {
+    background-color: $color_fondo_menu;
+}

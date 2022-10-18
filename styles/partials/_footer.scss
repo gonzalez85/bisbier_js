@@ -1,0 +1,21 @@
+footer {
+    grid-area: footer;
+    text-align: center;
+    ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color:#111;
+        margin: 0;
+        padding: 10px;
+        height: 80px;
+        list-style: none;
+        a{
+            text-decoration: none;
+        }
+        li a img {
+            width: 48px;
+            margin: 8px;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+
+article {
+        grid-area: principal;
+}
+.principal {
+    flex: 3;
+    margin: 5px;
+    padding: 10px 15px 15px 15px;
+    border-radius: 15px;
+    background-color: #111111bb;
+    font-size: 24px;
+    text-align: -webkit-center;
+    section {
+        background-color: #111;
+            img {
+            width: 100%;
+            border: #111 solid 3px;
+            border-radius: 15px 15px 0 0;
+        }
+    }
+}
+.grilla_estilos {
+    display: grid;
+    grid-template-areas: 
+    "estilo1_img"
+    "estilo1_desc"
+    "estilo2_img"
+    "estilo2_desc"
+    "estilo3_img"
+    "estilo3_desc"
+    "estilo4_img"
+    "estilo4_desc"
+    "estilo5_img"
+    "estilo5_desc";
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    text-align: left;
+}
+.estilo1_img, .estilo2_img, .estilo3_img, .estilo4_img, .estilo5_img {
+    border-radius: 15px 15px 0 0;
+    margin-top: 30px;
+}
+.estilo1_desc, .estilo2_desc, .estilo3_desc, .estilo4_desc, .estilo5_desc {
+    padding: 20px;
+}
+.tienda {
+    text-align: -webkit-center;
+}
+.img_news {
+    border: 3px solid #111;
+    border-radius: 0 10% 0 10%;
+    margin: 10px 0 10px 0;
+    max-width: 800px;
+    width: 100%;
+}
+aside {
+    grid-area: secundario;
+}
+.secundario {
+@include secundario($backColor:#111111bb, $tamFuente:16px)
+}
