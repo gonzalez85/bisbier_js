@@ -2,39 +2,42 @@
 // Sistema de reserva de choperas con cupos por calendario y stock (de choperas y cervezas)
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-let finSemana1 = 0;
-let finSemana2 = 1;
-let finSemana3 = 2;
-let finSemana4 = 1;
+const finesDeSemana = {
+    finSemana1: 0, finSemana2: 1, finSemana3: 2, finSemana4: 1
+}
+// let finSemana1 = 0;
+// let finSemana2 = 1;
+// let finSemana3 = 2;
+// let finSemana4 = 1;
 let opcionMenu = 0;
 
 //Funciones del sistema de reserva
 function consultarDisponibilidad() {
-    alert(`Actualmente contamos con la siguiente disponibilidad:\n\nFin de semana 1: ${finSemana1} Choperas disponibles\nFin de semana 2: ${finSemana2} Choperas disponibles\nFin de semana 3: ${finSemana3} Choperas disponibles\nFin de semana 4: ${finSemana4} Choperas disponibles`)
+    alert(`Actualmente contamos con la siguiente disponibilidad:\n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles`)
 }
 
 function validarReserva(finSemanaAReservar, cantidadAReservar){
-    if((finSemanaAReservar == '1' && cantidadAReservar > finSemana1) || (finSemanaAReservar == '2' && cantidadAReservar > finSemana2) || (finSemanaAReservar == '3' && cantidadAReservar > finSemana3) || (finSemanaAReservar == '4' && cantidadAReservar > finSemana4)){
+    if((finSemanaAReservar == '1' && cantidadAReservar > finesDeSemana.finSemana1) || (finSemanaAReservar == '2' && cantidadAReservar > finesDeSemana.finSemana2) || (finSemanaAReservar == '3' && cantidadAReservar > finesDeSemana.finSemana3) || (finSemanaAReservar == '4' && cantidadAReservar > finesDeSemana.finSemana4)){
         alert(`No hay suficientes choperas disponibles el fin de semana ${finSemanaAReservar}`);
         return false;
     } else if (finSemanaAReservar == '1'){
-        finSemana1 -= cantidadAReservar;
+        finesDeSemana.finSemana1 -= cantidadAReservar;
         return true;
     } else if (finSemanaAReservar == '2'){
-        finSemana2 -= cantidadAReservar;
+        finesDeSemana.finSemana2 -= cantidadAReservar;
         return true;
     } else if (finSemanaAReservar == '3'){
-        finSemana3 -= cantidadAReservar;
+        finesDeSemana.finSemana3 -= cantidadAReservar;
         return true;
     } else if (finSemanaAReservar == '4'){
-        finSemana4 -= cantidadAReservar;
+        finesDeSemana.finSemana4 -= cantidadAReservar;
         return true;
     }
 
 }
 
 const reservarChopera = function() {
-    let finSemanaAReservar = parseInt(prompt(`Para cual fin de semana necesitas la chopera? (Ingresa del 1 al 4)\n\n Te recuerdo nuestra agenda: \n\nFin de semana 1: ${finSemana1} Choperas disponibles\nFin de semana 2: ${finSemana2} Choperas disponibles\nFin de semana 3: ${finSemana3} Choperas disponibles\nFin de semana 4: ${finSemana4} Choperas disponibles\n`));
+    let finSemanaAReservar = parseInt(prompt(`Para cual fin de semana necesitas la chopera? (Ingresa del 1 al 4)\n\n Te recuerdo nuestra agenda: \n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles\n`));
     if (finSemanaAReservar >= 1 && finSemanaAReservar <= 4) {
             let cantidadAReservar = parseInt(prompt("Ingresa cuantas choperas necesitas:"));
             if (cantidadAReservar >= 1 && cantidadAReservar <= 2){
