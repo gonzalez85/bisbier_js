@@ -166,10 +166,10 @@ if(usuarioLogIn) {
   formularioIniciarSesion.addEventListener('submit', (e) => {
     e.preventDefault();
     let usuario = document.getElementById('nombre').value;
-    let numeroTarjeta = document.getElementById('clave').value;
+    let clave = document.getElementById('clave').value;
 
-    if(usuario != '' && numeroTarjeta != '') {
-      iniciarSesion(usuario, numeroTarjeta);
+    if(usuario != '' && clave != '') {
+      iniciarSesion(usuario, clave);
     } else {
       alert('Todos los datos son obligatorios');
     }
@@ -178,7 +178,7 @@ if(usuarioLogIn) {
   formularioRegistrarse.addEventListener('submit', (e) => {
     e.preventDefault();
     let usuario = document.getElementById('usuarioRegistrado').value;
-    let numeroTarjeta = document.getElementById('claveRegistrada').value;
+    let clave = document.getElementById('claveRegistrada').value;
     
     if(usuario != '' && clave != '') {
       registrarse(usuario, clave);
