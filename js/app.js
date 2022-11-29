@@ -20,25 +20,37 @@ class Usuario {
     }
 }
 
-function iniciarSesion(){
-    const nombre = prompt('Ingresa tu nombre');
-    const clave = prompt('Ingresa tu clave');
+function iniciarSesion(nombre, clave){
+    // const nombre = prompt('Ingresa tu nombre');
+    // const clave = prompt('Ingresa tu clave');
   
     usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
   
     if(usuarioLogIn) {
-      menuDeOpciones();
+      // menuDeOpciones();
+      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+
+      let mensajeBienvenida = document.getElementById('bienvenida');
+      let nombreUsuario = document.getElementById('nombreUsuario');
+      mensajeBienvenida.className = '';
+      nombreUsuario.innerText = nombre;
+
+      formularioIniciarSesion.className = 'hidden';
+      formularioRegistrarse.className = 'hidden';
     } else {
       alert('El nombre no esta registrado.');
     }
   }
 
-function registrarse() {
-  const nombre = prompt('Ingresa tu nombre');
-  const clave = prompt('Ingresa la clave deseada');
+function registrarse(nombre, clave) {
+  // const nombre = prompt('Ingresa tu nombre');
+  // const clave = prompt('Ingresa la clave deseada');
   const choperasReservadas = 0;
-
-  usuarios.push(new Usuario(nombre, clave, choperasReservadas));
+  const newUser = new Usuario(nombre, clave, choperasReservadas);
+  usuarios.push(newUser);
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  iniciarSesion(nombre, clave);
+  // usuarios.push(new Usuario(nombre, clave, choperasReservadas));
 }
 
 //Funciones del sistema de reserva
@@ -114,6 +126,7 @@ function seleccionarOpcionMenu(opcion){
             break;
         case '4':
              alert('Adios, esperamos volver a verte por aqui.')
+             localStorage.removeItem('usuario');
             break;
         default:
             alert('No existe la opcion ingresada, intente de nuevo.')
@@ -121,33 +134,56 @@ function seleccionarOpcionMenu(opcion){
     }
 }
 
-function menuDeOpciones() {
-do {
-    opcionMenu= prompt("Bienvenido a nuestro servicio de reserva de choperas. \n 1. Consultar disponibilidad. \n 2. Consultar reservas. \n 3. Reservar chopera. \n 4. Salir")
-    seleccionarOpcionMenu(opcionMenu);
-} while(opcionMenu !=='4');
-}
 
+let formularioIniciarSesion = document.getElementById('iniciarSesion');
+let formularioRegistrarse = document.getElementById('registrarse');
+let menuDeReservas = document.getElementById('reservas');
 
-let opcionMenu = 0;
-let opcionInicio = 0;
-let usuarios = [];
-let usuarioLogIn;
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+let usuarioLogIn = JSON.parse(localStorage.getItem('usuario'));
 
-do {
-    opcionInicio = prompt("Bienvenido a nuestro servicio de reserva de choperas.\n1.Iniciar sesion.\n2.Registrarse.\n3.Salir");
-    switch(opcionInicio) {
-      case '1':
-        iniciarSesion();
-        break;
-      case '2':
-        registrarse();
-        break;
-      case '3':
-        alert('Adios, esperamos volver a verte por aqui.');
-        break;
-      default:
-        alert('No existe la opcion ingresada, intente de nuevo.');
-        break;
+if(usuarioLogIn) {
+  let mensajeBienvenida = document.getElementById('bienvenida');
+  let nombreUsuario = document.getElementById('nombreUsuario');
+
+  mensajeBienvenida.className = '';
+  nombreUsuario.innerText = usuarioLogIn.nombre;
+  menuDeReservas.className = 'reservas';
+  formularioIniciarSesion.className = 'hidden';
+  formularioRegistrarse.className = 'hidden';
+
+  let botones = document.querySelectorAll('.btn-sistema');
+  for (const boton of botones) {
+    boton.addEventListener('click', (e) => {
+      let dataId = e.target.getAttribute('data-id');
+      seleccionarOpcionMenu(dataId);
+    });
+  }
+} else {
+  formularioIniciarSesion.className = '';
+  formularioRegistrarse.className = 'mt-2';
+
+  formularioIniciarSesion.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let usuario = document.getElementById('nombre').value;
+    let numeroTarjeta = document.getElementById('clave').value;
+
+    if(usuario != '' && numeroTarjeta != '') {
+      iniciarSesion(usuario, numeroTarjeta);
+    } else {
+      alert('Todos los datos son obligatorios');
     }
-  } while(opcionInicio != 3);
+  });
+
+  formularioRegistrarse.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let usuario = document.getElementById('usuarioRegistrado').value;
+    let numeroTarjeta = document.getElementById('claveRegistrada').value;
+    
+    if(usuario != '' && clave != '') {
+      registrarse(usuario, clave);
+    } else {
+      alert('Todos los datos son obligatorios');
+    }
+  });
+}

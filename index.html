@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Clicker+Script&display=swap" rel="stylesheet">
     <title>Inicio - Bisbier, Cerveza artesanal calidad premium</title>
 </head>
-<bodyclass="grilla">
+<body class="grilla">
     <!-- Cabecera -->
     <header class="cabecera">
         <nav class="navbar navbar-dark bg-dark fixed-top">
@@ -59,11 +59,43 @@
       <!-- Contenido principal -->
       <article class="principal">
         <h1>Bienvenidos a la web BisBier!</h1>
-        <p>En estos momentos Bisbier se encuentra de vacaciones! Muy pronto nos volveremos a re-encontrar!</p>
-        <img class="img_news" src="./images/playa.jpg" alt="Mate, termo y gorro de Bisbier">
-        <p>Publicaremos aquí, las noticias más relevantes de Bisbier.</p>
-        <p>También nuestro día a día y nuestras jornadas especiales de cocción para que puedas apreciar desde adentro, como trabajamos para lograr un producto de excelente calidad.</p>
-        <p>Por otro lado, estate atento a esta sección porque también haremos sorteos, concursos y encuestas para que puedas hacerte con nuestra preciada cerveza de manera GRATIS!</p>
+            <p>Se uno de los primeros en usar nuestro sistema de reservas de choperas!</p>
+            <div>
+              <h3 id="bienvenida" class="hidden">
+                Bienvenido <span id="nombreUsuario"></span>
+              </h3>
+                <form id="iniciarSesion" class="contact_form hidden">
+                    <fieldset>
+                        <legend>Iniciar Sesión</legend>
+                        <p>Para poder reservar choperas debes iniciar sesión</p>
+                        <input id="nombre" type="text" placeholder="Nombre">
+                        <input id="clave" type="password" placeholder="Contraseña">
+                        <input class="btn_form" type="submit" value="Enviar">
+                    </fieldset>
+                </form>
+            </div>
+            <div>
+              <form id="registrarse" class="contact_form hidden">
+                  <fieldset>
+                      <legend>Registrarse</legend>
+                      <p>Si no tienes usuario, registrate aqui</p>
+                      <input id="usuarioRegistrado" type="text" placeholder="Nombre">
+                      <input id="claveRegistrada" type="password" placeholder="Contraseña">
+                      <input class="btn_form" type="submit" value="Enviar">
+                  </fieldset>
+              </form>
+          </div>
+          <div id="reservas" class="reservas hidden">
+            <fieldset>
+              <legend>Sistema de Reservas</legend>
+              <button class="btn_form btn-sistema" data-id="1">Consultar disponibilidad</button>
+              <button class="btn_form btn-sistema" data-id="2">Consultar Reserva</button>
+              <button class="btn_form btn-sistema" data-id="3">Reservar chopera</button>
+              <button class="btn_form btn-sistema" data-id="4">Salir</button>
+            </fieldset>
+          </div>
+      <img class="img_news" src="./images/playa.jpg" alt="Mate, termo y gorro de Bisbier">
+        <p>Ahora lleva Bisbier hasta a la playa si quieres!</p>
       </article>
       <!-- Contenido secundario -->
       <aside class="secundario">

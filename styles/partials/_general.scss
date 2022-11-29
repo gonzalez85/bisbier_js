@@ -40,6 +40,9 @@ body {
     grid-template-rows: 1fr;
     grid-template-columns: 1fr;
 }
+.hidden {
+    display: none;
+}
 // Bootstrap
 .navbar{
     padding: 0em 0.5em 0em 0em;
@@ -125,7 +128,24 @@ input {
     }
 }
 
-
+.reservas {
+    max-width: 640px;
+    background-color: #111;
+    padding: 15px;
+    border-radius: 10px;
+    // fieldset {
+    //     text-align: left;
+    //     max-width: 524px;
+    //     textarea {
+    //         width: 100%;
+    //         min-height: 150px;
+    //         background-color: #111;
+    //         padding: 0 5px 0 5px;
+    //         color: #fff;
+    //         margin: 10px 0 0 0;
+    //     }
+    // }
+}
 // @media
 @media screen and (min-width: 320px) {
     .logo_clic {

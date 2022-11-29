@@ -156,6 +156,10 @@ body main {
   grid-template-columns: 1fr;
 }
 
+.hidden {
+  display: none;
+}
+
 .navbar {
   padding: 0em 0.5em 0em 0em;
 }
@@ -244,6 +248,13 @@ input {
   background-color: #222;
   border-color: #222;
   color: #fff;
+}
+
+.reservas {
+  max-width: 640px;
+  background-color: #111;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 @media screen and (min-width: 320px) {
