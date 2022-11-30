@@ -160,8 +160,8 @@ if(usuarioLogIn) {
   formularioIniciarSesion.className = 'hidden';
   formularioRegistrarse.className = 'hidden';
 } else {
-  formularioIniciarSesion.className = '';
-  formularioRegistrarse.className = 'mt-2';
+  formularioIniciarSesion.className = 'contact_form';
+  formularioRegistrarse.className = 'contact_form';
 }
 let botones = document.querySelectorAll('.btn-sistema');
 for (const boton of botones) {
