@@ -127,6 +127,10 @@ function seleccionarOpcionMenu(opcion){
       case '4':
            alert('Adios, esperamos volver a verte por aqui.')
            localStorage.removeItem('usuario');
+           formularioIniciarSesion.className = 'contact_form';
+           formularioRegistrarse.className = 'contact_form';
+           menuDeReservas.className = 'hidden';
+
           break;
       default:
           alert('No existe la opcion ingresada, intente de nuevo.')
