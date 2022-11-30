@@ -124,7 +124,8 @@ function seleccionarOpcionMenu(opcion){
            formularioIniciarSesion.className = 'contact_form';
            formularioRegistrarse.className = 'contact_form';
            menuDeReservas.className = 'hidden';
-
+           let mensajeBienvenida = document.getElementById('bienvenida');
+           mensajeBienvenida.className = 'hidden';
           break;
       default:
           alert('No existe la opcion ingresada, intente de nuevo.')
