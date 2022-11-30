@@ -21,14 +21,11 @@ class Usuario {
 }
 
 function iniciarSesion(nombre, clave){
-  // const nombre = prompt('Ingresa tu nombre');
-  // const clave = prompt('Ingresa tu clave');
 
   usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
 
   if(usuarioLogIn) {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
-    // menuDeOpciones();
     let mensajeBienvenida = document.getElementById('bienvenida');
     let nombreUsuario = document.getElementById('nombreUsuario');
     mensajeBienvenida.className = '';
@@ -43,14 +40,11 @@ function iniciarSesion(nombre, clave){
 }
 
 function registrarse(nombre, clave) {
-// const nombre = prompt('Ingresa tu nombre');
-// const clave = prompt('Ingresa la clave deseada');
 const choperasReservadas = 0;
 const newUser = new Usuario(nombre, clave, choperasReservadas);
 usuarios.push(newUser);
 localStorage.setItem('usuarios', JSON.stringify(usuarios));
 iniciarSesion(nombre, clave);
-// usuarios.push(new Usuario(nombre, clave, choperasReservadas));
 }
 
 //Funciones del sistema de reserva
@@ -175,23 +169,6 @@ boton.addEventListener('click', (e) => {
 });
 }
 
-// do {
-//   opcionInicio = prompt("Bienvenido a nuestro servicio de reserva de choperas.\n1.Iniciar sesion.\n2.Registrarse.\n3.Salir");
-//   switch(opcionInicio) {
-//     case '1':
-//       iniciarSesion();
-//       break;
-//     case '2':
-//       registrarse();
-//       break;
-//     case '3':
-//       alert('Adios, esperamos volver a verte por aqui.');
-//       break;
-//     default:
-//       alert('No existe la opcion ingresada, intente de nuevo.');
-//       break;
-//   }
-// } while(opcionInicio != 3);
 
 formularioIniciarSesion.addEventListener('submit', (e) => {
   e.preventDefault();
