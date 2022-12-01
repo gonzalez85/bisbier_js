@@ -16,14 +16,14 @@ class Usuario {
   }
   agregarReserva(choperas, reserva) {
       this.choperasReservadas += choperas;
-      this.reservas.push(reserva);
+      this.reservas.push(reserva);    
   }
 }
 
 function iniciarSesion(nombre, clave){
 
   usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
-
+console.log(usuarioLogIn)
   if(usuarioLogIn) {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
     let mensajeBienvenida = document.getElementById('bienvenida');
@@ -49,6 +49,13 @@ iniciarSesion(nombre, clave);
 
 //Funciones del sistema de reserva
 function consultarReserva() {
+  let nombre = JSON.parse(localStorage.getItem('usuario')).nombre
+  let clave = JSON.parse(localStorage.getItem('usuario')).clave
+  let choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas
+  
+
+  const usuarioLogIn = new Usuario(nombre, clave, choperasReservadas);
+
   if ((usuarioLogIn.choperasReservadas > 1) && (usuarioLogIn.reservas.length > 1)){
     alert(`Usted actualmente tiene ${usuarioLogIn.choperasReservadas} choperas reservadas para los fines de semana ${usuarioLogIn.reservas}`);
 } else if (usuarioLogIn.choperasReservadas > 1) {
@@ -66,24 +73,38 @@ function consultarDisponibilidad() {
 }
 
 function validarReserva(finSemanaAReservar, cantidadAReservar){
+  let nombre = JSON.parse(localStorage.getItem('usuario')).nombre
+  let clave = JSON.parse(localStorage.getItem('usuario')).clave
+  let choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas
+  
+
+  const usuarioLogIn = new Usuario(nombre, clave, choperasReservadas);
+
+  console.log(usuarioLogIn)
   if((finSemanaAReservar == '1' && cantidadAReservar > finesDeSemana.finSemana1) || (finSemanaAReservar == '2' && cantidadAReservar > finesDeSemana.finSemana2) || (finSemanaAReservar == '3' && cantidadAReservar > finesDeSemana.finSemana3) || (finSemanaAReservar == '4' && cantidadAReservar > finesDeSemana.finSemana4)){
       alert(`No hay suficientes choperas disponibles el fin de semana ${finSemanaAReservar}`);
       return false;
   } else if (finSemanaAReservar == '1'){
       finesDeSemana.finSemana1 -= cantidadAReservar;
       usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
       return true;
   } else if (finSemanaAReservar == '2'){
       finesDeSemana.finSemana2 -= cantidadAReservar;
       usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuarios', JSON.stringify(usuarioLogIn));
+      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+      
       return true;
   } else if (finSemanaAReservar == '3'){
       finesDeSemana.finSemana3 -= cantidadAReservar;
       usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
       return true;
   } else if (finSemanaAReservar == '4'){
       finesDeSemana.finSemana4 -= cantidadAReservar;
       usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
               return true;
   }
 
