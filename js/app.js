@@ -92,7 +92,7 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
   } else if (finSemanaAReservar == '2'){
       finesDeSemana.finSemana2 -= cantidadAReservar;
       usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      localStorage.setItem('usuarios', JSON.stringify(usuarioLogIn));
+      // localStorage.setItem('usuarios', JSON.stringify(usuarioLogIn));
       localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
       
       return true;
