@@ -107,7 +107,8 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
       localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
               return true;
   }
-
+  usuarios.map( usuario => usuario.choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas);
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
 const reservarChopera = function() {
@@ -117,7 +118,9 @@ const reservarChopera = function() {
           if (cantidadAReservar >= 1 && cantidadAReservar <= 2){
               let resultado = validarReserva (finSemanaAReservar, cantidadAReservar);
               if (resultado) {
-                  alert(`La reserva fue exitosa, haz reservado ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`)
+                  alert(`La reserva fue exitosa, haz reservado ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`);
+                  usuarios.map( usuario => usuario.choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas);
+                  localStorage.setItem('usuarios', JSON.stringify(usuarios));
               }
           } else {
               alert('Ingrese un valor entre 1 y 2')
