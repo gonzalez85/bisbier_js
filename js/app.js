@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 const finesDeSemana = {
-  finSemana1: 0, finSemana2: 1, finSemana3: 2, finSemana4: 1
+  finSemana1: 3, finSemana2: 5, finSemana3: 7, finSemana4: 8
 }
 
 //Usuario y LogIn
@@ -39,6 +39,7 @@ console.log(usuarioLogIn)
   }
 }
 
+//Registro
 function registrarse(nombre, clave) {
 const choperasReservadas = 0;
 const newUser = new Usuario(nombre, clave, choperasReservadas);
@@ -54,14 +55,14 @@ function consultarReserva() {
   let choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas
   
 
-  const usuarioLogIn = new Usuario(nombre, clave, choperasReservadas);
+  const usuarioLoged = new Usuario(nombre, clave, choperasReservadas);
 
-  if ((usuarioLogIn.choperasReservadas > 1) && (usuarioLogIn.reservas.length > 1)){
-    alert(`Usted actualmente tiene ${usuarioLogIn.choperasReservadas} choperas reservadas para los fines de semana ${usuarioLogIn.reservas}`);
-} else if (usuarioLogIn.choperasReservadas > 1) {
-    alert(`Usted actualmente tiene ${usuarioLogIn.choperasReservadas} choperas reservadas para el fin de semana ${usuarioLogIn.reservas}`);
-} else if (usuarioLogIn.choperasReservadas > 0) {
-  alert(`Usted actualmente tiene ${usuarioLogIn.choperasReservadas} chopera reservada para el fin de semana ${usuarioLogIn.reservas}`);
+  if ((usuarioLoged.choperasReservadas > 1) && (usuarioLoged.reservas.length > 1)){
+    alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} choperas reservadas para los fines de semana ${usuarioLoged.reservas}`);
+} else if (usuarioLoged.choperasReservadas > 1) {
+    alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} choperas reservadas para el fin de semana ${usuarioLoged.reservas}`);
+} else if (usuarioLoged.choperasReservadas > 0) {
+  alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} chopera reservada para el fin de semana ${usuarioLoged.reservas}`);
 } else {
   alert(`Usted no tiene choperas reservadas.`);
 }
@@ -78,33 +79,33 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
   let choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas
   
 
-  const usuarioLogIn = new Usuario(nombre, clave, choperasReservadas);
+  const usuarioLoged = new Usuario(nombre, clave, choperasReservadas);
 
-  console.log(usuarioLogIn)
+  console.log(usuarioLoged)
   if((finSemanaAReservar == '1' && cantidadAReservar > finesDeSemana.finSemana1) || (finSemanaAReservar == '2' && cantidadAReservar > finesDeSemana.finSemana2) || (finSemanaAReservar == '3' && cantidadAReservar > finesDeSemana.finSemana3) || (finSemanaAReservar == '4' && cantidadAReservar > finesDeSemana.finSemana4)){
       alert(`No hay suficientes choperas disponibles el fin de semana ${finSemanaAReservar}`);
       return false;
   } else if (finSemanaAReservar == '1'){
       finesDeSemana.finSemana1 -= cantidadAReservar;
-      usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+      usuarioLoged.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
       return true;
   } else if (finSemanaAReservar == '2'){
       finesDeSemana.finSemana2 -= cantidadAReservar;
-      usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      // localStorage.setItem('usuarios', JSON.stringify(usuarioLogIn));
-      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+      usuarioLoged.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      // localStorage.setItem('usuarios', JSON.stringify(usuarioLoged));
+      localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
       
       return true;
   } else if (finSemanaAReservar == '3'){
       finesDeSemana.finSemana3 -= cantidadAReservar;
-      usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+      usuarioLoged.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
       return true;
   } else if (finSemanaAReservar == '4'){
       finesDeSemana.finSemana4 -= cantidadAReservar;
-      usuarioLogIn.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
+      usuarioLoged.agregarReserva(cantidadAReservar, finSemanaAReservar);
+      localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
               return true;
   }
   usuarios.map( usuario => usuario.choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas);
@@ -119,7 +120,8 @@ const reservarChopera = function() {
               let resultado = validarReserva (finSemanaAReservar, cantidadAReservar);
               if (resultado) {
                   alert(`La reserva fue exitosa, haz reservado ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`);
-                  usuarios.map( usuario => usuario.choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas);
+                  let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLogIn.nombre);
+                  usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
                   localStorage.setItem('usuarios', JSON.stringify(usuarios));
               }
           } else {
@@ -171,14 +173,14 @@ let menuDeReservas = document.getElementById('reservas');
 let opcionMenu = 0;
 let opcionInicio = 0;
 let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-let usuarioLogIn = JSON.parse(localStorage.getItem('usuario'));
+let usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
 
-if(usuarioLogIn) {
+if(usuarioLoged) {
   let mensajeBienvenida = document.getElementById('bienvenida');
   let nombreUsuario = document.getElementById('nombreUsuario');
 
   mensajeBienvenida.className = '';
-  nombreUsuario.innerText = usuarioLogIn.nombre;
+  nombreUsuario.innerText = usuarioLoged.nombre;
   menuDeReservas.className = 'reservas';
   formularioIniciarSesion.className = 'hidden';
   formularioRegistrarse.className = 'hidden';
