@@ -23,7 +23,6 @@ class Usuario {
 function iniciarSesion(nombre, clave){
 
   usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
-console.log(usuarioLogIn)
   if(usuarioLogIn) {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
     let mensajeBienvenida = document.getElementById('bienvenida');
@@ -35,17 +34,24 @@ console.log(usuarioLogIn)
     formularioRegistrarse.className = 'hidden';
     menuDeReservas.className = 'reservas';
 } else {
-    alert(`El nombre ${nombre} no esta registrado.`);
+    alert(`El usuario "${nombre}" no esta registrado o la contraseña es incorrecta`);
   }
 }
 
 //Registro
 function registrarse(nombre, clave) {
-const choperasReservadas = 0;
-const newUser = new Usuario(nombre, clave, choperasReservadas);
-usuarios.push(newUser);
-localStorage.setItem('usuarios', JSON.stringify(usuarios));
-iniciarSesion(nombre, clave);
+  let usuario = document.getElementById('usuarioRegistrado').value;
+  let indexUsuarioRegistrado = usuarios.findIndex(el => el.nombre == usuario);
+  if (indexUsuarioRegistrado == -1) {
+ const choperasReservadas = 0;
+  const newUser = new Usuario(nombre, clave, choperasReservadas);
+  usuarios.push(newUser);
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  iniciarSesion(nombre, clave);
+  } else {
+    alert(`El nombre ${nombre} ya está registrado.`);
+  }
+ 
 }
 
 //Funciones del sistema de reserva
@@ -93,7 +99,6 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
   } else if (finSemanaAReservar == '2'){
       finesDeSemana.finSemana2 -= cantidadAReservar;
       usuarioLoged.agregarReserva(cantidadAReservar, finSemanaAReservar);
-      // localStorage.setItem('usuarios', JSON.stringify(usuarioLoged));
       localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
       
       return true;
@@ -108,8 +113,6 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
       localStorage.setItem('usuario', JSON.stringify(usuarioLoged));
               return true;
   }
-  usuarios.map( usuario => usuario.choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas);
-  localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
 const reservarChopera = function() {
