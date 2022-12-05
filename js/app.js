@@ -30,7 +30,7 @@ class Usuario {
 
 function iniciarSesion(nombre, clave){
 
-  usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
+  usuarioLogIn = usuarioLoged = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
   if(usuarioLogIn) {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
     let nombreUsuario = document.getElementById('nombreUsuario');
@@ -62,7 +62,6 @@ function registrarse(nombre, clave) {
   } else {
     alert(`El nombre ${nombre} ya está registrado.`);
   }
- 
 }
 
 //Funciones del sistema de reserva
@@ -93,7 +92,6 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
 
   const usuarioLoged = new Usuario(nombre, clave, choperasReservadas);
 
-  console.log(usuarioLoged)
   if((finSemanaAReservar == '1' && cantidadAReservar > finesDeSemana.finSemana1) || (finSemanaAReservar == '2' && cantidadAReservar > finesDeSemana.finSemana2) || (finSemanaAReservar == '3' && cantidadAReservar > finesDeSemana.finSemana3) || (finSemanaAReservar == '4' && cantidadAReservar > finesDeSemana.finSemana4)){
       alert(`No hay suficientes choperas disponibles el fin de semana ${finSemanaAReservar}`);
       return false;
