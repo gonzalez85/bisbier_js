@@ -2,8 +2,16 @@
 // Sistema de reserva de choperas con cupos por calendario y stock (de choperas y cervezas)
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+let formularioIniciarSesion = document.getElementById('iniciarSesion');
+let formularioRegistrarse = document.getElementById('registrarse');
+let formularioReserva = document.getElementById('formReserva');
+let menuDeReservas = document.getElementById('reservas');
+let mensajeBienvenida = document.getElementById('bienvenida');
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+let usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
+  
 const finesDeSemana = {
-  finSemana1: 3, finSemana2: 5, finSemana3: 7, finSemana4: 8
+  finSemana1: 0, finSemana2: 2, finSemana3: 2, finSemana4: 1
 }
 
 //Usuario y LogIn
@@ -25,14 +33,17 @@ function iniciarSesion(nombre, clave){
   usuarioLogIn = usuarios.find((usuario) => usuario.nombre === nombre && usuario.clave === clave );
   if(usuarioLogIn) {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogIn));
-    let mensajeBienvenida = document.getElementById('bienvenida');
     let nombreUsuario = document.getElementById('nombreUsuario');
     mensajeBienvenida.className = '';
+    
     nombreUsuario.innerText = nombre;
 
     formularioIniciarSesion.className = 'hidden';
     formularioRegistrarse.className = 'hidden';
     menuDeReservas.className = 'reservas';
+    let mensajeReservas = `Hola ${usuarioLogIn.nombre}, bienvenido al sistema de reserva de choperas de Bisbier!`;
+  
+    mostrarMsjReservas(mensajeReservas)
 } else {
     alert(`El usuario "${nombre}" no esta registrado o la contraseña es incorrecta`);
   }
@@ -56,29 +67,24 @@ function registrarse(nombre, clave) {
 
 //Funciones del sistema de reserva
 function consultarReserva() {
-  let nombre = JSON.parse(localStorage.getItem('usuario')).nombre
-  let clave = JSON.parse(localStorage.getItem('usuario')).clave
-  let choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas
-  
-
-  const usuarioLoged = new Usuario(nombre, clave, choperasReservadas);
-
-  if ((usuarioLoged.choperasReservadas > 1) && (usuarioLoged.reservas.length > 1)){
-    alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} choperas reservadas para los fines de semana ${usuarioLoged.reservas}`);
-} else if (usuarioLoged.choperasReservadas > 1) {
-    alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} choperas reservadas para el fin de semana ${usuarioLoged.reservas}`);
-} else if (usuarioLoged.choperasReservadas > 0) {
-  alert(`Usted actualmente tiene ${usuarioLoged.choperasReservadas} chopera reservada para el fin de semana ${usuarioLoged.reservas}`);
-} else {
-  alert(`Usted no tiene choperas reservadas.`);
-}
+  usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
+  mensajeReservas = `Usted actualmente tiene ${usuarioLoged.choperasReservadas} chopera/s reservadas para el/los fine/s de semana/s ${usuarioLoged.reservas}`; 
+  mostrarMsjReservas(mensajeReservas)
+  formularioReserva.className = 'hidden';
   }
-  
 
 function consultarDisponibilidad() {
-  alert(`Actualmente contamos con la siguiente disponibilidad:\n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles`)
+  mensajeReservas = `Actualmente contamos con la siguiente disponibilidad:\n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles`; 
+  mostrarMsjReservas(mensajeReservas)
+  formularioReserva.className = 'hidden';
+  // alert(`Actualmente contamos con la siguiente disponibilidad:\n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles`)
 }
+function mostrarMsjReservas(mensajeReservas) {
+  let msjReservas = document.getElementById('msjReservas');
+  msjReservas.innerText = mensajeReservas; 
+  msjReservas.className = '';
 
+}
 function validarReserva(finSemanaAReservar, cantidadAReservar){
   let nombre = JSON.parse(localStorage.getItem('usuario')).nombre
   let clave = JSON.parse(localStorage.getItem('usuario')).clave
@@ -116,26 +122,18 @@ function validarReserva(finSemanaAReservar, cantidadAReservar){
 }
 
 const reservarChopera = function() {
-  let finSemanaAReservar = parseInt(prompt(`Para cual fin de semana necesitas la chopera? (Ingresa del 1 al 4)\n\n Te recuerdo nuestra agenda: \n\nFin de semana 1: ${finesDeSemana.finSemana1} Choperas disponibles\nFin de semana 2: ${finesDeSemana.finSemana2} Choperas disponibles\nFin de semana 3: ${finesDeSemana.finSemana3} Choperas disponibles\nFin de semana 4: ${finesDeSemana.finSemana4} Choperas disponibles\n`));
-  if (finSemanaAReservar >= 1 && finSemanaAReservar <= 4) {
-          let cantidadAReservar = parseInt(prompt("Ingresa cuantas choperas necesitas:"));
-          if (cantidadAReservar >= 1 && cantidadAReservar <= 2){
-              let resultado = validarReserva (finSemanaAReservar, cantidadAReservar);
-              if (resultado) {
-                  alert(`La reserva fue exitosa, haz reservado ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`);
-                  let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLogIn.nombre);
-                  usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
-                  localStorage.setItem('usuarios', JSON.stringify(usuarios));
-              }
-          } else {
-              alert('Ingrese un valor entre 1 y 2')
-          }
-           
-      } else {
-              alert('Ingrese un valor entre 1 y 4')
-          }
-}
+  consultarDisponibilidad();
+  formularioReserva.className = 'contact_form formReserva';
+  }
 
+function cerrarSecion () {
+  localStorage.removeItem('usuario');
+  formularioIniciarSesion.className = 'contact_form';
+  formularioRegistrarse.className = 'contact_form';
+  menuDeReservas.className = 'hidden';
+  mensajeBienvenida.className = 'hidden';
+
+}
 function seleccionarOpcionMenu(opcion){
   switch (opcion) {
       case '1':
@@ -148,13 +146,8 @@ function seleccionarOpcionMenu(opcion){
           reservarChopera();
           break;
       case '4':
-           alert('Adios, esperamos volver a verte por aqui.')
-           localStorage.removeItem('usuario');
-           formularioIniciarSesion.className = 'contact_form';
-           formularioRegistrarse.className = 'contact_form';
-           menuDeReservas.className = 'hidden';
-           let mensajeBienvenida = document.getElementById('bienvenida');
-           mensajeBienvenida.className = 'hidden';
+          alert('Adios, esperamos volver a verte por aqui.')
+          cerrarSecion()
           break;
       default:
           alert('No existe la opcion ingresada, intente de nuevo.')
@@ -162,31 +155,16 @@ function seleccionarOpcionMenu(opcion){
   }
 }
 
-function menuDeOpciones() {
-do {
-  opcionMenu= prompt("Bienvenido a nuestro servicio de reserva de choperas. \n 1. Consultar disponibilidad. \n 2. Consultar reservas. \n 3. Reservar chopera. \n 4. Salir")
-  seleccionarOpcionMenu(opcionMenu);
-} while(opcionMenu !=='4');
-}
-
-let formularioIniciarSesion = document.getElementById('iniciarSesion');
-let formularioRegistrarse = document.getElementById('registrarse');
-let menuDeReservas = document.getElementById('reservas');
-
-let opcionMenu = 0;
-let opcionInicio = 0;
-let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-let usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
-
 if(usuarioLoged) {
-  let mensajeBienvenida = document.getElementById('bienvenida');
+  let mensajeReservas = `Hola ${usuarioLoged.nombre}, bienvenido al sistema de reserva de choperas de Bisbier!`;
+  
   let nombreUsuario = document.getElementById('nombreUsuario');
-
   mensajeBienvenida.className = '';
   nombreUsuario.innerText = usuarioLoged.nombre;
   menuDeReservas.className = 'reservas';
   formularioIniciarSesion.className = 'hidden';
   formularioRegistrarse.className = 'hidden';
+  mostrarMsjReservas(mensajeReservas)
 } else {
   formularioIniciarSesion.className = 'contact_form';
   formularioRegistrarse.className = 'contact_form';
@@ -222,4 +200,18 @@ formularioRegistrarse.addEventListener('submit', (e) => {
   } else {
     alert('Todos los datos son obligatorios');
   }
+});
+
+formularioReserva.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let cantidadAReservar = parseInt(document.getElementById('cantidadAReservar').value);
+  let finSemanaAReservar = document.getElementById('finSemanaAReservar').value;
+  
+  validarReserva(finSemanaAReservar, cantidadAReservar)
+  let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLoged.nombre);
+                  usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
+                  usuarios[indexUsuarioLoged].reservas = JSON.parse(localStorage.getItem('usuario')).reservas;
+                  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                  usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
+                  consultarReserva()
 });

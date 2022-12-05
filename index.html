@@ -62,7 +62,7 @@
             <p>Se uno de los primeros en usar nuestro sistema de reservas de choperas!</p>
             <div>
               <h3 id="bienvenida" class="hidden">
-                Bienvenido <span id="nombreUsuario"></span>
+                Bienvenido/a <span id="nombreUsuario"></span>
               </h3>
                 <form id="iniciarSesion" class="contact_form hidden">
                     <fieldset>
@@ -93,6 +93,20 @@
               <button class="btn_form btn-sistema" data-id="3">Reservar chopera</button>
               <button class="btn_form btn-sistema" data-id="4">Salir</button>
             </fieldset>
+            <div id="panel" class="panel">
+              <p id="msjReservas" class="hidden"></p>
+              <form id="formReserva" class="contact_form formReserva hidden">
+                <fieldset>
+                    <!-- <legend>Reserva</legend> -->
+                    <p>Quiero reservar 
+                      <input id="cantidadAReservar" type="number" placeholder="" min="1" max="9">
+                      chopera/s para el fin de semana 
+                      <input id="finSemanaAReservar" type="number" placeholder="" min="1" max="4"> .
+                    </p>
+                    <input class="btn_form" type="submit" value="Enviar">
+                </fieldset>
+            </form>
+            </div>
           </div>
       <img class="img_news" src="./images/playa.jpg" alt="Mate, termo y gorro de Bisbier">
         <p>Ahora lleva Bisbier hasta a la playa si quieres!</p>
