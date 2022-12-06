@@ -258,6 +258,21 @@ input {
   border-radius: 10px;
 }
 
+.error {
+  max-width: 640px;
+  background-color: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  font-size: 0.7em;
+  color: #F99;
+}
+.error span {
+  color: #F22;
+  font-size: 1em;
+  font-weight: bold;
+}
+
 .panel {
   background-color: #333;
   padding: 15px;

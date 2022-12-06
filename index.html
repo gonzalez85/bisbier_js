@@ -20,6 +20,9 @@
         <nav class="navbar navbar-dark bg-dark fixed-top">
             <!-- Logo -->
             <a href="./index.html"><img class="logo_clic" src="./images/Logo 2.0 FT.png" alt="Logo Bisbier"></a>
+            <span id="bienvenida" class="hidden">
+              Bienvenid@ <span id="nombreUsuario"></span><button class="btn_form btn-sistema" data-id="4">Salir</button>
+            </span>
             <!-- Menu hamburguesa-->
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -61,9 +64,10 @@
         <h1>Bienvenidos a la web BisBier!</h1>
             <p>Se uno de los primeros en usar nuestro sistema de reservas de choperas!</p>
             <div>
-              <h3 id="bienvenida" class="hidden">
+              <!-- <h3 id="bienvenida" class="hidden">
                 Bienvenido/a <span id="nombreUsuario"></span>
-              </h3>
+              </h3> -->
+              <div id="error" class="error hidden"></div>
                 <form id="iniciarSesion" class="contact_form hidden">
                     <fieldset>
                         <legend>Iniciar Sesión</legend>
@@ -88,6 +92,7 @@
           <div id="reservas" class="reservas hidden">
             <fieldset>
               <legend>Sistema de Reservas</legend>
+              <!-- <legend>Sistema de Reservas</legend> -->
               <button class="btn_form btn-sistema" data-id="1">Consultar disponibilidad</button>
               <button class="btn_form btn-sistema" data-id="2">Consultar Reserva</button>
               <button class="btn_form btn-sistema" data-id="3">Reservar chopera</button>
