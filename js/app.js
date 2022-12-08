@@ -10,7 +10,8 @@ let mensajeBienvenida = document.getElementById('bienvenida');
 let msjError = document.getElementById('error');
 let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 let usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
-  
+let botones = document.querySelectorAll('.btn-sistema');
+
 const finesDeSemana = {
   finSemana1: 0, finSemana2: 2, finSemana3: 2, finSemana4: 1
 }
@@ -173,7 +174,7 @@ if(usuarioLoged) {
   formularioIniciarSesion.className = 'contact_form';
   formularioRegistrarse.className = 'contact_form';
 }
-let botones = document.querySelectorAll('.btn-sistema');
+
 for (const boton of botones) {
 boton.addEventListener('click', (e) => {
   let dataId = e.target.getAttribute('data-id');
@@ -209,11 +210,31 @@ formularioReserva.addEventListener('submit', (e) => {
   e.preventDefault();
   let cantidadAReservar = parseInt(document.getElementById('cantidadAReservar').value);
   let finSemanaAReservar = document.getElementById('finSemanaAReservar').value;
-  validarReserva(finSemanaAReservar, cantidadAReservar)
-  let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLoged.nombre);
-  usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
-  usuarios[indexUsuarioLoged].reservas = JSON.parse(localStorage.getItem('usuario')).reservas;
-  localStorage.setItem('usuarios', JSON.stringify(usuarios));
-  usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
-  consultarReserva()
+  Swal.fire({
+    title: 'Estás seguro?',
+    text: `Reservarás ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Confirmado!',
+        `Has reservado ${cantidadAReservar} chopera/s para el fin de semana ${finSemanaAReservar}`,
+        'success'
+      )
+      validarReserva(finSemanaAReservar, cantidadAReservar)
+      let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLoged.nombre);
+      usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
+      usuarios[indexUsuarioLoged].reservas = JSON.parse(localStorage.getItem('usuario')).reservas;
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
+      consultarReserva()
+   
+    }
+  })
+
 });
