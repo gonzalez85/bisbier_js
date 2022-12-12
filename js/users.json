@@ -1,0 +1,53 @@
+[
+    {
+      "nombre": "Edu",
+      "clave": "1234",
+      "choperasReservadas": 2,
+      "reservas": [{
+        "estilo": "Blonde",
+        "finSemana1": 0,
+        "finSemana2": 1,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Apa",
+        "finSemana1": 0,
+        "finSemana2": 1,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Ipa",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Irish",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      }]
+    },
+    {
+      "nombre": "Mati",
+      "clave": "1234",
+      "choperasReservadas": 1,
+      "reservas": []
+    },
+    {
+      "nombre": "Ana",
+      "clave": "1234",
+      "choperasReservadas": 1,
+      "reservas": []
+    },
+    {
+      "nombre": "Enzo",
+      "clave": "1234",
+      "choperasReservadas": 0,
+      "reservas": []
+    }
+  ]

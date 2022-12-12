@@ -1,0 +1,30 @@
+[
+    {
+      "estilo": "Blonde",
+      "finSemana1": 0,
+      "finSemana2": 2,
+      "finSemana3": 3,
+      "finSemana4": 2
+    },
+    {
+      "estilo": "Apa",
+      "finSemana1": 2,
+      "finSemana2": 1,
+      "finSemana3": 3,
+      "finSemana4": 2
+    },
+    {
+      "estilo": "Ipa",
+      "finSemana1": 4,
+      "finSemana2": 1,
+      "finSemana3": 3,
+      "finSemana4": 2
+    },
+    {
+      "estilo": "Irish",
+      "finSemana1": 3,
+      "finSemana2": 0,
+      "finSemana3": 3,
+      "finSemana4": 2
+    }
+  ]

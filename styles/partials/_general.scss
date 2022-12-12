@@ -133,7 +133,15 @@ input {
     max-width: 640px;
     background-color: #111;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 15px;
+}
+
+#msjReservas div{
+    background: #000;
+    width: fit-content;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
 }
 .error{
     max-width: 640px;
@@ -145,6 +153,20 @@ input {
     color: #F99;
     span {
         color: #F22;
+        font-size: 1em;
+        font-weight: bold;
+    }
+}
+.exito{
+    max-width: 640px;
+    background-color: #111;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 0.7em;
+    color: #9F9;
+    span {
+        color: #2F2;
         font-size: 1em;
         font-weight: bold;
     }

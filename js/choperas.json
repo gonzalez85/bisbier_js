@@ -1,0 +1,30 @@
+[
+    {
+      "fecha": "24/12/2022",
+      "Blonde": 0,
+      "Apa": 2,
+      "Ipa": 3,
+      "Irish": 2
+    },
+    {
+      "fecha": "25/12/2022",
+      "Blonde": 2,
+      "Apa": 1,
+      "Ipa": 3,
+      "Irish": 2
+    },
+    {
+      "fecha": "31/12/2022",
+      "Blonde": 4,
+      "Apa": 1,
+      "Ipa": 3,
+      "Irish": 2
+    },
+    {
+      "fecha": "01/01/2023",
+      "Blonde": 3,
+      "Apa": 0,
+      "Ipa": 3,
+      "Irish": 2
+    }
+  ]
