@@ -11,38 +11,12 @@ let msjExito = document.getElementById('exito');
 let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 let usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
 let botones = document.querySelectorAll('.btn-sistema');
-const finesDeSemana = {
-  finSemana1: 0, finSemana2: 2, finSemana3: 2, finSemana4: 1
-}
-const choperasDisponibles = [  {
-    fecha: "24/12/2022",
-    Blonde: 0,
-    Apa: 2,
-    Ipa: 3,
-    Irish: 2
-  },
-  {
-    fecha: "25/12/2022",
-    Blonde: 2,
-    Apa: 1,
-    Ipa: 3,
-    Irish: 2
-  },
-  {
-    fecha: "31/12/2022",
-    Blonde: 4,
-    Apa: 1,
-    Ipa: 3,
-    Irish: 2
-  },
-  {
-    fecha: "01/01/2023",
-    Blonde: 3,
-    Apa: 0,
-    Ipa: 3,
-    Irish: 2
-  }
-]
+
+let choperasDisponibles = fetch('./js/disponibilidad.json')
+    .then(res => res.json())
+    .then(data => {
+      choperasDisponibles=data
+    })
 //Usuario y LogIn
 class Usuario {
   constructor(nombre, clave, choperasReservadas) {
@@ -52,19 +26,17 @@ class Usuario {
     this.reservas = []
   }
   agregarReserva(choperasAReservar, reservasARegistrar) {
-      this.choperasReservadas += choperasAReservar;
-      this.reservas = reservasARegistrar;    
+    this.choperasReservadas += choperasAReservar;
+    this.reservas = reservasARegistrar;    
   }
 }
 async function peticionServidorIniciarSesion() {
   const users = await fetch('./js/users.json');
   const usuariosDB = await users.json();
-
   return usuariosDB;
   fetch('./js/users.json')
     .then(users => users.json())
     .then(usuariosDB => usuarios = [...usuariosDB]);
-
   return usuarios;
 }
 async function iniciarSesion(nombre, clave){
@@ -97,22 +69,24 @@ async function iniciarSesion(nombre, clave){
         mostrarMsjError(mensajeError)
       }
   }
+  
 }
 //Registro
 async function registrarse(informacionFormulario){
-  usuariosDB = await peticionServidorIniciarSesion();
+  if (usuarios.length==0)
+  {usuarios = await peticionServidorIniciarSesion();}
   return new Promise( (resolve, rejected) => {
     const { nombre: userName} = informacionFormulario;
-    let existeUsuario = usuariosDB.some( (user) => 
+    let existeUsuario = usuarios.some( (user) => 
       user.nombre === userName
     );
     if(existeUsuario) {
       rejected(`<span>Error:</span> El usuario "${userName}" ya está registrado.`);
     } else {
-      usuariosDB.push({
+      usuarios.push({
         ...informacionFormulario,
       });
-      localStorage.setItem('usuarios', JSON.stringify(usuariosDB));
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
       resolve(`<span>Exito:</span> El usuario "${userName}" ha sido registrado correctamente.`)
     }
   });
@@ -121,8 +95,7 @@ async function registrarse(informacionFormulario){
 function consultarReserva() {
   usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
   let mensajeReservas = document.getElementById('msjReservas');
-  console.log(mensajeReservas)
-  
+ mensajeReservas.innerHTML = ""
   usuarioLoged.reservas.forEach(estilo => {
     mensajeReservas.innerHTML += `<div>
     <h4>${estilo.estilo}</h4>
@@ -131,31 +104,26 @@ function consultarReserva() {
     <p>Fin de Semana 3: ${estilo.finSemana3}</p>
     <p>Fin de Semana 4: ${estilo.finSemana4}</p>
   </div>`;
-  console.log(estilo.estilo)
   })
-  console.log(mensajeReservas)
-  mostrarMsjReservas(mensajeReservas);
   formularioReserva.className = 'hidden';
   }
-async function peticionServidorDisponibilidad() {
-  const disponibilidad = await fetch('./js/disponibilidad.json');
-  const disponibilidadDB = await disponibilidad.json();
+// async function peticionServidorDisponibilidad() {
+//   const disponibilidad = await fetch('./js/disponibilidad.json');
+//   const disponibilidadDB = await disponibilidad.json();
 
-  return disponibilidadDB;
-  fetch('./js/disponibilidad.json')
-    .then(disponibilidad => disponibilidad.json())
-    .then(disponibilidadDB => disponibles = [...disponibilidadDB]);
+//   return disponibilidadDB;
+//   fetch('./js/disponibilidad.json')
+//     .then(disponibilidad => disponibilidad.json())
+//     .then(disponibilidadDB => disponibles = [...disponibilidadDB]);
 
-  return disponibles;
-}
-async function consultarDisponibilidad() {
+//   return disponibles;
+// }
+function consultarDisponibilidad() {
   formularioReserva.className = 'hidden';
-  fetch('./js/disponibilidad.json')
-    .then((res) => res.json())
-    .then((data) => {
+  
       let msjDisponibilidad = document.getElementById('msjReservas');
       msjDisponibilidad.innerHTML =""
-      data.forEach(estilo => {
+      choperasDisponibles.forEach(estilo => {
         msjDisponibilidad.innerHTML +=`<div>
             <h4>${estilo.estilo}</h4>
             <p>Fin de Semana 1: ${estilo.finSemana1}</p>
@@ -164,10 +132,8 @@ async function consultarDisponibilidad() {
             <p>Fin de Semana 4: ${estilo.finSemana4}</p>
           </div>
           `;
-          console.log(msjDisponibilidad)
-  
       })
-    })
+    
 }
 function mostrarMsjReservas(mensajeReservas) {
   let msjReservas = document.getElementById('msjReservas');
@@ -204,13 +170,37 @@ function validarReserva(estiloAReservar, finSemanaAReservar, cantidadAReservar){
   let indexReservas = reservas.findIndex(el => el.estilo == estiloAReservar);
   let finSemana = "finSemana"+finSemanaAReservar;
   const usuarioLoged = new Usuario(nombre, clave, choperasReservadas, reservas);
-  if((cantidadAReservar > choperasDisponibles[finSemanaAReservar-1][estiloAReservar]) ){
+  if((cantidadAReservar > choperasDisponibles[indexReservas][finSemana]) ){
       mensajeError = `<span>Error:</span> No hay suficientes choperas disponibles el fin de semana ${finSemanaAReservar}`; 
       mostrarMsjError(mensajeError);
       return false;
   } else {
+    Swal.fire({
+      title: 'Estás seguro?',
+      text: `Reservarás ${cantidadAReservar} chopera/s de ${estiloAReservar} para el fin de semana ${finSemanaAReservar}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#333',
+      background: '#222',
+      color: '#ddd',
+      cancelButtonColor: '#833',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          confirmButtonColor: '#333',
+          background: '#222',
+          color: '#ddd',
+          cancelButtonColor: '#833',
+          title: 'Confirmado!',
+          text: `Has reservado ${cantidadAReservar} chopera/s de ${estiloAReservar} para el fin de semana ${finSemanaAReservar}`,
+          icon: 'success'}
+        )
+      }
+    })
       reservas[indexReservas][finSemana]+= cantidadAReservar;
-      choperasDisponibles[finSemanaAReservar-1][estiloAReservar] -= cantidadAReservar;
+      choperasDisponibles[indexReservas][finSemana] -= cantidadAReservar;
       usuarioLoged.agregarReserva(cantidadAReservar, reservas);
       guardarUsuarioLS(usuarioLoged);
       return true;
@@ -221,7 +211,6 @@ const reservarChopera = function() {
   consultarDisponibilidad();
   formularioReserva.className = 'contact_form formReserva';
   }
-
 function cerrarSecion () {
   localStorage.removeItem('usuario');
   formularioIniciarSesion.className = 'contact_form';
@@ -249,7 +238,6 @@ function seleccionarOpcionMenu(opcion){
           break;
   }
 }
-
 if(usuarioLoged) {
   let mensajeReservas = `Hola ${usuarioLoged.nombre}, bienvenido al sistema de reserva de choperas de Bisbier!`;
   let nombreUsuario = document.getElementById('nombreUsuario');
@@ -263,14 +251,12 @@ if(usuarioLoged) {
   formularioIniciarSesion.className = 'contact_form';
   formularioRegistrarse.className = 'contact_form';
 }
-
 for (const boton of botones) {
 boton.addEventListener('click', (e) => {
   let dataId = e.target.getAttribute('data-id');
   seleccionarOpcionMenu(dataId);
 });
 }
-
 formularioIniciarSesion.addEventListener('submit', (e) => {
   e.preventDefault();
   let usuario = document.getElementById('nombre').value;
@@ -282,7 +268,6 @@ formularioIniciarSesion.addEventListener('submit', (e) => {
     mostrarMsjError(mensajeError);
   }
 });
-
 formularioRegistrarse.onsubmit = (e) => {
   e.preventDefault();
 
@@ -294,7 +279,34 @@ formularioRegistrarse.onsubmit = (e) => {
       nombre: datos[2].value,
       clave: datos[3].value,
       choperasReservadas: 0,
-      reservas: []
+      reservas: [{
+        "estilo": "Blonde",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Apa",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Ipa",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      },
+      {
+        "estilo": "Irish",
+        "finSemana1": 0,
+        "finSemana2": 0,
+        "finSemana3": 0,
+        "finSemana4": 0
+      }]
     })
     .then((respuesta) => {
       mostrarMsjExito(respuesta);
@@ -304,44 +316,16 @@ formularioRegistrarse.onsubmit = (e) => {
     })
   }
 }
-
-
 formularioReserva.addEventListener('submit', (e) => {
   e.preventDefault();
   let cantidadAReservar = parseInt(document.getElementById('cantidadAReservar').value);
   let finSemanaAReservar = document.getElementById('finSemanaAReservar').value;
   let estiloAReservar = document.getElementById('estiloAReservar').value;
-  Swal.fire({
-    title: 'Estás seguro?',
-    text: `Reservarás ${cantidadAReservar} chopera/s de ${estiloAReservar} para el fin de semana ${finSemanaAReservar}`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#333',
-    background: '#222',
-    color: '#ddd',
-    cancelButtonColor: '#833',
-    confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        confirmButtonColor: '#333',
-        background: '#222',
-        color: '#ddd',
-        cancelButtonColor: '#833',
-        title: 'Confirmado!',
-        text: `Has reservado ${cantidadAReservar} chopera/s de ${estiloAReservar}para el fin de semana ${finSemanaAReservar}`,
-        icon: 'success'}
-      )
-      validarReserva(estiloAReservar, finSemanaAReservar, cantidadAReservar)
-      let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLoged.nombre);
-      usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
-      usuarios[indexUsuarioLoged].reservas = JSON.parse(localStorage.getItem('usuario')).reservas;
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-      usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
-      consultarReserva()
-   
-    }
-  })
-
+  validarReserva(estiloAReservar, finSemanaAReservar, cantidadAReservar)
+  let indexUsuarioLoged = usuarios.findIndex(el => el.nombre == usuarioLoged.nombre);
+  usuarios[indexUsuarioLoged].choperasReservadas = JSON.parse(localStorage.getItem('usuario')).choperasReservadas;
+  usuarios[indexUsuarioLoged].reservas = JSON.parse(localStorage.getItem('usuario')).reservas;
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  usuarioLoged = JSON.parse(localStorage.getItem('usuario'));
+  consultarReserva()
 });
