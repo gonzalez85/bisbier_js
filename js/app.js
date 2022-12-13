@@ -107,17 +107,7 @@ function consultarReserva() {
   })
   formularioReserva.className = 'hidden';
   }
-// async function peticionServidorDisponibilidad() {
-//   const disponibilidad = await fetch('./js/disponibilidad.json');
-//   const disponibilidadDB = await disponibilidad.json();
 
-//   return disponibilidadDB;
-//   fetch('./js/disponibilidad.json')
-//     .then(disponibilidad => disponibilidad.json())
-//     .then(disponibilidadDB => disponibles = [...disponibilidadDB]);
-
-//   return disponibles;
-// }
 function consultarDisponibilidad() {
   formularioReserva.className = 'hidden';
   
